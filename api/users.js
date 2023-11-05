@@ -1,8 +1,8 @@
+// Import the necessary libraries
 import express from "express";
 import prisma from "./Lib/index.js";
-import Authentication from "./middleware/authenticate.js";
-import adminAuth from "./middleware/adminAuth.js";
 import permission from "./middleware/permission.js";
+
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.get("/", permission, async (req, res) => {
     if (user) {
       res.status(201).json(user);
     } else {
-      res.status(404).json({ message: "can't find user" });
+      res.status(404).json({ message: "User not found" });
     }
   } catch (err) {
     res.status(500).json({
@@ -25,29 +25,57 @@ router.get("/", permission, async (req, res) => {
 });
 
 // get user by id
-  router.get('/:id',permission, async (req, res) => {
+router.get("/:id", permission, async (req, res) => {
+  const id = req.params.id;
   try {
     const user = await prisma.user.findUnique({
       where: {
-        id: id
-      }
+        id: id,
+      },
     });
-
     if (user) {
-      res.status(201).json(user);
-    } 
-
-    else {
-      res.status(404).json({ message: "can't find user" });
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ message: "User not found" });
     }
-
   } catch (err) {
     res.status(500).json({
-      message: "something went wrong here",
+      message: "something went wrong",
       err: err.message,
     });
   }
 });
 
+// delete user
+router.delete("/:id", permission, async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if(!user){
+     return res.status(404).json('User not found')
+    }
+
+    await prisma.user.delete({
+      where: {
+        id: id,
+      },
+    });
+
+
+    res.status(204).send()
+    
+
+  } catch (err) {
+    res.status(500).json({
+      message: "something went wrong",
+      err: err.message,
+    });
+  }
+});
 
 export default router;

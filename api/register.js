@@ -3,7 +3,6 @@ import prisma from "./Lib/index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import adminAuth from "./middleware/adminAuth.js";
 
 const SECRET_KEY = process.env.SECRET_KEY;
 const router = express.Router();
@@ -50,7 +49,7 @@ router.post("/signup", async (req, res) => {
 
 // Loging
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body
 
   try {
     const existingUser = await prisma.user.findUnique({
@@ -60,7 +59,7 @@ router.post("/login", async (req, res) => {
     });
 
     if (!existingUser) {
-      return res.status.json({ message: "user not found" });
+      return res.status(404).json({ message: "user not found" });
     }
     // check if the password is correct
     const isPasswordCorrect = await bcrypt.compare(
@@ -69,7 +68,7 @@ router.post("/login", async (req, res) => {
     );
 
     if (!isPasswordCorrect) {
-      res.status(400).json({ message: "Invalid password" });
+     return res.status(401).json({ message: "Invalid password" });
     }
 
     // create token
@@ -80,7 +79,7 @@ router.post("/login", async (req, res) => {
         role: existingUser.role,
       },
       SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "1d" }
     );
 
     res.status(201).json({
@@ -94,6 +93,7 @@ router.post("/login", async (req, res) => {
     });
   }
 });
+
 
 
 export default router;

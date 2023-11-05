@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id        String   @default(uuid())
+  id        String   @unique @default(uuid())
   firstName String
   lastName  String?
   email     String   @unique
@@ -19,9 +19,85 @@ model User {
   role      Role     @default(user)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  lesson   Lesson[]
+  // progress Progress[]
 }
 
 enum Role {
   admin
   user
 }
+
+
+model Lesson {
+  id          String   @id @unique @default(uuid())
+  title       String
+  videoUrl    String
+  content     String
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId      String
+  user User @relation(fields: [userId], references: [id])
+
+  categoryId  Int
+  category Category @relation(fields: [categoryId], references: [id])
+
+  // quiz Quiz[]
+  // exercise Exercise[]
+  // progress Progress[]
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  lessons Lesson[]
+}
+
+// model Quiz {
+//   id Int @id @default(autoincrement())
+//   question String
+//   answerChioss Json
+//   correctAnswer Int
+//   createdAt  DateTime @default(now())
+//   updatedAt  DateTime @updatedAt
+
+//   lessonId String 
+//   lesson Lesson @relation(fields: [lessonId], references: [id])
+//   progress Progress[]
+
+// }
+
+// model Exercise {
+//   id Int @id @default(autoincrement())
+//   title String
+//   description  String
+//   content Json
+//   correctAnswer String
+//   createdAt  DateTime @default(now())
+//   updatedAt  DateTime @updatedAt
+
+//   lessonId String 
+//   lesson Lesson @relation(fields: [lessonId], references: [id])
+
+//   progress Progress[]
+// }
+
+// model Progress {
+//   id           Int      @id @default(autoincrement())
+//   userId       String
+//   lessonId     String
+//   quizId       Int
+//   exerciseId   Int
+//   isCompeleted Boolean
+//   score        Int
+//   user         User     @relation(fields: [userId], references: [id])
+//   lesson       Lesson   @relation(fields: [lessonId], references: [id])
+//   quiz         Quiz     @relation(fields: [quizId], references: [id])
+//   exercise     Exercise @relation(fields: [exerciseId], references: [id])
+// }
