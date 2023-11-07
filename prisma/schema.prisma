@@ -20,15 +20,14 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  lesson   Lesson[]
-  // progress Progress[]
+  lesson  Lesson[]
+  answers Answer[]
 }
 
 enum Role {
   admin
   user
 }
-
 
 model Lesson {
   id          String   @id @unique @default(uuid())
@@ -39,15 +38,13 @@ model Lesson {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  userId      String
-  user User @relation(fields: [userId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
-  categoryId  Int
-  category Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
 
-  // quiz Quiz[]
-  // exercise Exercise[]
-  // progress Progress[]
+  quiz Quiz?
 }
 
 model Category {
@@ -59,19 +56,29 @@ model Category {
   lessons Lesson[]
 }
 
-// model Quiz {
-//   id Int @id @default(autoincrement())
-//   question String
-//   answerChioss Json
-//   correctAnswer Int
-//   createdAt  DateTime @default(now())
-//   updatedAt  DateTime @updatedAt
+model Quiz {
+  id            Int      @id @default(autoincrement())
+  question      String
+  answerChoices Json
+  correctAnswer Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-//   lessonId String 
-//   lesson Lesson @relation(fields: [lessonId], references: [id])
-//   progress Progress[]
+  lessonId String   @unique
+  lesson   Lesson   @relation(fields: [lessonId], references: [id])
+  answers  Answer[]
+}
 
-// }
+model Answer {
+  id          Int      @id @default(autoincrement())
+  answer      Int
+  submittedAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  quizId Int
+  quiz   Quiz   @relation(fields: [quizId], references: [id])
+}
 
 // model Exercise {
 //   id Int @id @default(autoincrement())

@@ -3,7 +3,6 @@ import express from "express";
 import prisma from "./Lib/index.js";
 import permission from "./middleware/permission.js";
 
-
 const router = express.Router();
 
 // get all user
@@ -47,29 +46,19 @@ router.get("/:id", permission, async (req, res) => {
 });
 
 // delete user
-router.delete("/:id", permission, async (req, res) => {
-  const id = req.params.id;
+router.delete("/logout/:id", permission, async (req, res) => {
   try {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.delete({
       where: {
-        id: id,
+        id: req.params.id,
       },
     });
 
-    if(!user){
-     return res.status(404).json('User not found')
+    if (user) {
+      return res.status(204).send();
+    } else {
+      return res.status(404).json("User not found");
     }
-
-    await prisma.user.delete({
-      where: {
-        id: id,
-      },
-    });
-
-
-    res.status(204).send()
-    
-
   } catch (err) {
     res.status(500).json({
       message: "something went wrong",

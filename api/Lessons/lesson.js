@@ -2,11 +2,13 @@
 import express from "express";
 import prisma from "../Lib/index.js";
 import permission from "../middleware/permission.js";
+import authenticate from '../middleware/authenticate.js'
+
 
 const router = express.Router();
 
 // get all the lesson
-router.get("/", permission, async (req, res) => {
+router.get("/",authenticate, async (req, res) => {
   try {
     const lessons = await prisma.lesson.findMany();
 
@@ -49,7 +51,7 @@ router.get("/:id", permission, async (req, res) => {
 
 // Create a lesson
 router.post("/add", permission, async (req, res) => {
-  const { title, videoUrl, content, isPublished } = req.body;
+  const { title, videoUrl, content } = req.body;
 
   try {
     // Check if a lesson with the same values already exists
@@ -57,7 +59,7 @@ router.post("/add", permission, async (req, res) => {
       where: {
         title: title,
         videoUrl: videoUrl,
-        content: content,
+        content: content
       },
     });
 
