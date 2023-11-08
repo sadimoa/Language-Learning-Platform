@@ -5,6 +5,7 @@ import lessonRouter from "./Lessons/lesson.js";
 import categoryRouter from "./lessons/lossenCategory.js";
 import quizRouter from "./Lessons/Quizzes/quiz.js";
 import answerRouter from "./Lessons/Quizzes/answer.js";
+import resultRouter from "./Lessons/Quizzes/result.js";
 
 const server = express();
 server.use(json());
@@ -15,5 +16,6 @@ server.use("/api/lessons", lessonRouter);
 server.use("/api/category", categoryRouter);
 server.use("/api/quizzes", quizRouter);
 server.use("/api/answers", answerRouter);
+server.use("/api/result", resultRouter);
 
 export default server;

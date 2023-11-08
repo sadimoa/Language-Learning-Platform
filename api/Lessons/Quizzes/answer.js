@@ -13,20 +13,19 @@ router.get("/", permission, async (req, res) => {
     const answer = await prisma.answer.findMany();
 
     if (answer) {
-        return res.status(200).json(answer);
-
+      return res.status(200).json(answer);
     } else {
-        return res.status(404).json({ message: "Answer not found" });
+      return res.status(404).json({ message: "Answer not found" });
     }
   } catch (err) {
     return res.status(500).json({
       message: "Internal server error",
-      err: err.message
+      err: err.message,
     });
   }
 });
 
-// Create answer and check if the student is correct answer
+// Create answer and check if the student answer is correct
 router.post("/submit", authenticate, async (req, res) => {
   try {
     const { quizId, answer, userId } = req.body;
@@ -43,65 +42,83 @@ router.post("/submit", authenticate, async (req, res) => {
     }
 
     const existingAnswer = await prisma.answer.findFirst({
-        where: {
-          answer,
-          quizId,
-          userId,
-        },
-      });
-  
-      // if the answer  already exist return 404 error
-      if (existingAnswer) {
-        // Respond with a 409  status if answer already exizt
-        return res.status(409).json({ message: "Student already answer" });
-      }
+      where: {
+        answer,
+        quizId,
+        userId,
+      },
+    });
+
+    if (existingAnswer) {
+      // Respond with a 409  status if answer already exizt
+      return res
+        .status(409)
+        .json({ message: "Student already answer this question" });
+    }
 
     // Save the student's answer in the database
-     await prisma.answer.create({
+    await prisma.answer.create({
       data: req.body,
     });
 
     // Check if the student answer is correct
     if (answer === quiz.correctAnswer) {
-      return res.status(200).json({ message: "Correct answer" });
+      const result = await prisma.result.create({
+        data: {
+          score: 10,
+          quizId: quizId,
+          userId: userId,
+        },
+      });
+
+      return res.status(200).json({
+        message: "Correct answer",
+        result: result,
+      });
     } else {
-      return res
-        .status(200)
-        .json({ message: "Incorrect answer. Please try again" });
+      await prisma.result.create({
+        data: {
+          score: 0,
+          quizId: quizId,
+          userId: userId,
+        },
+      });
+      return res.status(200).json({
+        message: "Incorrect answer",
+        result: result,
+      });
     }
   } catch (err) {
     return res.status(500).json({
       message: "Internal server error",
-      err: err.message
+      err: err.message,
     });
   }
 });
 
-
-
 // delete the answer
 router.delete("/delete/:id", permission, async (req, res) => {
-    try {
-      // find the the answer you wanna delete
-      const answer = await prisma.answer.delete({
-        where: {
-          id: Number(req.params.id),
-        },
-      });
-  
-      // check if the answer exist
-      if (answer) {
-        res.status(204).json({ message: "answer deleted succesfully" });
-      } else {
-        return res.status(404).json({ message: "answer not found" });
-      }
-    } catch (err) {
-      // Handle any unexpected errors with a 500 Internal Server Error status
-      res.status(500).json({
-        message: "Error deleting answer",
-        err: err.message,
-      });
+  try {
+    // find the the answer you wanna delete
+    const answer = await prisma.answer.delete({
+      where: {
+        id: Number(req.params.id),
+      },
+    });
+
+    // check if the answer exist
+    if (answer) {
+      res.status(204).json({ message: "answer deleted succesfully" });
+    } else {
+      return res.status(404).json({ message: "answer not found" });
     }
-  });
+  } catch (err) {
+    // Handle errors with a 500 Internal Server Error
+    res.status(500).json({
+      message: "Error deleting answer",
+      err: err.message,
+    });
+  }
+});
 
 export default router;

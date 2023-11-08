@@ -22,6 +22,7 @@ model User {
 
   lesson  Lesson[]
   answers Answer[]
+  Result  Result[]
 }
 
 enum Role {
@@ -44,7 +45,7 @@ model Lesson {
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id])
 
-  quiz Quiz?
+  quiz Quiz[]
 }
 
 model Category {
@@ -67,6 +68,7 @@ model Quiz {
   lessonId String   @unique
   lesson   Lesson   @relation(fields: [lessonId], references: [id])
   answers  Answer[]
+  Result   Result[]
 }
 
 model Answer {
@@ -74,6 +76,16 @@ model Answer {
   answer      Int
   submittedAt DateTime @default(now())
 
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  quizId Int
+  quiz   Quiz   @relation(fields: [quizId], references: [id])
+}
+
+
+model Result {
+  id     Int    @id @default(autoincrement())
+  score  Int
   userId String
   user   User   @relation(fields: [userId], references: [id])
   quizId Int
