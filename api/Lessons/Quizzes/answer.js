@@ -25,6 +25,29 @@ router.get("/", permission, async (req, res) => {
   }
 });
 
+// get answer by id
+router.get("/:id", permission, async (req, res) => {
+  try {
+    const answer = await prisma.answer.findUnique({
+      where: {
+        id: Number(req.params.id),
+      },
+    });
+
+    if (answer) {
+      res.status(200).json(answer);
+    } else {
+      // Respond with a 404 Not Found status if no answer are found
+      res.status(404).json({ message: "answer not found" });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "something went wrong",
+      err: err.message,
+    });
+  }
+});
+
 // Create answer and check if the student answer is correct
 router.post("/submit", authenticate, async (req, res) => {
   try {
@@ -56,38 +79,33 @@ router.post("/submit", authenticate, async (req, res) => {
         .json({ message: "Student already answer this question" });
     }
 
-    // Save the student's answer in the database
-    await prisma.answer.create({
-      data: req.body,
-    });
+    let resultMessage;
+    let score = 0;
 
     // Check if the student answer is correct
     if (answer === quiz.correctAnswer) {
-      const result = await prisma.result.create({
-        data: {
-          score: 10,
-          quizId: quizId,
-          userId: userId,
-        },
+      // Save the student's answer in the database
+      await prisma.answer.create({
+        data: req.body,
       });
-
-      return res.status(200).json({
-        message: "Correct answer",
-        result: result,
-      });
+      score = 10;
+      resultMessage = "Correct answer";
     } else {
-      await prisma.result.create({
-        data: {
-          score: 0,
-          quizId: quizId,
-          userId: userId,
-        },
-      });
-      return res.status(200).json({
-        message: "Incorrect answer",
-        result: result,
-      });
+      resultMessage = "Incorrect answer plaese try again";
     }
+
+    // Create a result based of the stdent score
+    const result = await prisma.result.create({
+      data: {
+        score: score,
+        quizId: quizId,
+        userId: userId,
+      },
+    });
+    return res.status(200).json({
+      message: resultMessage,
+      result: result,
+    });
   } catch (err) {
     return res.status(500).json({
       message: "Internal server error",

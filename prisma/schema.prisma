@@ -31,13 +31,17 @@ enum Role {
 }
 
 model Lesson {
-  id          String   @id @unique @default(uuid())
+  id          String    @id @unique @default(uuid())
   title       String
   videoUrl    String
   content     String
-  isPublished Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  language    String
+  lessonNumber Int
+  isPublished Boolean   @default(false)
+  isCompleted Boolean   @default(false)
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
@@ -65,7 +69,7 @@ model Quiz {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  lessonId String   @unique
+  lessonId String
   lesson   Lesson   @relation(fields: [lessonId], references: [id])
   answers  Answer[]
   Result   Result[]
@@ -82,7 +86,6 @@ model Answer {
   quiz   Quiz   @relation(fields: [quizId], references: [id])
 }
 
-
 model Result {
   id     Int    @id @default(autoincrement())
   score  Int
@@ -91,32 +94,3 @@ model Result {
   quizId Int
   quiz   Quiz   @relation(fields: [quizId], references: [id])
 }
-
-// model Exercise {
-//   id Int @id @default(autoincrement())
-//   title String
-//   description  String
-//   content Json
-//   correctAnswer String
-//   createdAt  DateTime @default(now())
-//   updatedAt  DateTime @updatedAt
-
-//   lessonId String 
-//   lesson Lesson @relation(fields: [lessonId], references: [id])
-
-//   progress Progress[]
-// }
-
-// model Progress {
-//   id           Int      @id @default(autoincrement())
-//   userId       String
-//   lessonId     String
-//   quizId       Int
-//   exerciseId   Int
-//   isCompeleted Boolean
-//   score        Int
-//   user         User     @relation(fields: [userId], references: [id])
-//   lesson       Lesson   @relation(fields: [lessonId], references: [id])
-//   quiz         Quiz     @relation(fields: [quizId], references: [id])
-//   exercise     Exercise @relation(fields: [exerciseId], references: [id])
-// }

@@ -7,7 +7,7 @@ import authenticate from "../../middleware/authenticate.js";
 const router = express.Router();
 
 // get all the quizzes
-router.get("/", authenticate, async (req, res) => {
+router.get("/", permission, async (req, res) => {
   try {
     const quizzes = await prisma.quiz.findMany();
 

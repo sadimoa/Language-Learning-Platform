@@ -30,7 +30,7 @@ function permission(req, res, next) {
     // If the token is valid, attach the decoded information to the request object.
     req.decoded = decoded;
 
-    // Check if the user has the necessary permissions admin or matching user id
+    // Check if the user has the  permissions admin or their user id
     if (req.decoded.role === "admin" || req.decoded.id === req.params.id) {
       // continue with the request
       next()
