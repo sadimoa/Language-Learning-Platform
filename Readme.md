@@ -34,7 +34,7 @@ Authorization: Bearer <token>
 | password   | string | User's password      |
 
 - Response:
-  - Status: 200 OK
+  - Status: 201 OK
   - Content-Type: application/json
   - Body:
 
@@ -50,7 +50,7 @@ Authorization: Bearer <token>
       }
     }
 ```
-
+-409 Conflict: User with the provided email already exists.
 ```json
     {
       "message": "user already exists"
@@ -72,11 +72,9 @@ Authorization: Bearer <token>
 
 
 - Response
-  - Status: 200 OK
+  - Status: 201 OK
   - Content-Type: application/json
   - Body:
-
-
 
 ```json
     {
@@ -86,14 +84,14 @@ Authorization: Bearer <token>
 ```
 
 
-
+- 404 Not Found: User with the provided email not found.
 ```json
     {
       "message": "user not found"
     }
 ```
 
-
+-  401 Unauthorized: Invalid password.
 ```json
     {
       "message": "Invalid password"
