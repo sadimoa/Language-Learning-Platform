@@ -1,30 +1,29 @@
-# API Documentation for Language Learning Platform
+# API Documentation for Fix It Together
 
 This is the documentation for the API endpoints provided by the Language Learning server.
 
 ## Base URL
 
-The base URL for all API endpoints is: ``
+The base URL for all API endpoints is: `https://fix-it-together-eda1be1fe9b5.herokuapp.com/api`
 
 ## Authentication
 
 All authenticated endpoints require a valid JSON Web Token (JWT) in the Authorization header.
 
-### Example Header
+#### Example Header
 
 ```plaintext
 Authorization: Bearer <token>
 ```
 
-# Endpoints
+## Endpoints
 
 ### User Registration
 
-#### Request Body
- - **URL**: `/user/register/signup`
+ - **URL**: `/user/register`
  - **Method**: `POST`
  - **Description**: Registers a new user.
-
+ - **Request Body**:
 
 | Field      | Type   | Description          |
 |------------|--------|----------------------|
@@ -70,11 +69,10 @@ Authorization: Bearer <token>
 
 ### User Login
 
-
-#### Request Body
- - **URL**: `/user/register/login`
+ - **URL**: `/user/register`
  - **Method**: `POST`
- - **Description**: login a user.
+ - **Description**: Registers a new user.
+ - **Request Body**:
 
 | Field      | Type   | Description          |
 |------------|--------|----------------------|
