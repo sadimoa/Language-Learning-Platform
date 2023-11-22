@@ -19,11 +19,14 @@ POST /signup
 
 #### Request Body
 
-- `firstName` (string): User's first name.
-- `lastName` (string): User's last name.
-- `email` (string): User's email address.
-- `password` (string): User's password.
-- `role` (string): User's role (e.g., "admin", "user").
+
+| Field      | Type   | Description          |
+|------------|--------|----------------------|
+| firstName  | string | User's first name    |
+| lastName   | string | User's last name     |
+| email      | string | User's email address |
+| password   | string | User's password      |
+| role       | string | User's role          |
 
 #### Response
 
@@ -69,8 +72,12 @@ POST /login
 
 #### Request Body
 
-- `email` (string): User's email address.
-- `password` (string): User's password.
+
+| Field      | Type   | Description          |
+|------------|--------|----------------------|
+| email      | string | User's email address |
+| password   | string | User's password      |
+
 
 #### Response
 
