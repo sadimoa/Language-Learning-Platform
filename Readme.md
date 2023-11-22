@@ -1,23 +1,29 @@
-# User Authentication API Documentation
+# API Documentation for Fix It Together
 
-This API provides user authentication functionalities, allowing users to sign up and log in securely.
+This is the documentation for the API endpoints provided by the Language Learning server.
 
 ## Base URL
 
-All endpoints are relative to the base URL of your server.
+The base URL for all API endpoints is: `https://fix-it-together-eda1be1fe9b5.herokuapp.com/api`
 
-## Endpoints
+## Authentication
 
-### 1. Sign Up
+All authenticated endpoints require a valid JSON Web Token (JWT) in the Authorization header.
 
-#### Endpoint
+### Example Header
 
-POST /signup
+```plaintext
+Authorization: Bearer <token>
+```
 
+# Endpoints
 
-
+### User Registration
 
 #### Request Body
+ - **URL**: `/user/register/signup`
+ - **Method**: `POST`
+ - **Description**: Registers a new user.
 
 
 | Field      | Type   | Description          |
@@ -62,16 +68,13 @@ POST /signup
     }
     ```
 
-### 2. Log In
-
-#### Endpoint
-
-POST /login
-
+### User Login
 
 
 #### Request Body
-
+ - **URL**: `/user/register/login`
+ - **Method**: `POST`
+ - **Description**: login a user.
 
 | Field      | Type   | Description          |
 |------------|--------|----------------------|
