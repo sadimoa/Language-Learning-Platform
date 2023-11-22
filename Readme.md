@@ -34,58 +34,7 @@ POST /signup
       "role": "user"
     }
   }
-409 Conflict: User with the provided email already exists.
 
-{
-  "message": "User already exists"
-}
-500 Internal Server Error: Error creating the user.
-json
-Copy code
-{
-  "message": "Error creating user",
-  "err": "Error details"
-}
-2. Login
-Endpoint
-bash
-Copy code
-POST /login
-Request Body
-Field	Type	Description
-email	string	Email address of the user.
-password	string	User's password.
-Response
-201 Created: User logged in successfully. Returns a JWT token.
-
-{
-  "message": "User logged in successfully",
-  "token": "JWT_TOKEN"
-}
-404 Not Found: User with the provided email not found.
-
-{
-  "message": "User not found"
-}
-401 Unauthorized: Invalid password.
-
-{
-  "message": "Invalid password"
-}
-500 Internal Server Error: Error during the login process.
-
-{
-  "message": "Error signing in",
-  "err": "Error details"
-}
-Authentication
-For secure endpoints, include the generated JWT token in the Authorization header of your requests.
-
-Example:
-
-
-Authorization: Bearer JWT_TOKEN
-The token expires after 1 day (expiresIn: "1d").
 
 Environment Variables
 Ensure the following environment variable is set in a .env file:
