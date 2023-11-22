@@ -50,7 +50,7 @@ Authorization: Bearer <token>
       }
     }
 ```
--409 Conflict: User with the provided email already exists.
+- 409 Conflict: User with the provided email already exists.
 ```json
     {
       "message": "user already exists"
