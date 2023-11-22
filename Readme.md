@@ -75,39 +75,31 @@ Authorization: Bearer <token>
   - Content-Type: application/json
   - Body:
 
-- `201 Created`: User successfully logged in.
-  - Body:
-    ```json
+
+
+```json
     {
       "message": "user logged in successfully",
       "token": "generated-jwt-token"
     }
-    ```
+```
 
-- `404 Not Found`: User with the provided email not found.
-  - Body:
-    ```json
+
+
+```json
     {
       "message": "user not found"
     }
-    ```
+```
 
-- `401 Unauthorized`: Invalid password.
-  - Body:
-    ```json
+
+```json
     {
       "message": "Invalid password"
     }
-    ```
+```
 
-- `500 Internal Server Error`: Error during login.
-  - Body:
-    ```json
-    {
-      "message": "Error logging in",
-      "err": "Error details"
-    }
-    ```
+
 
 
 
