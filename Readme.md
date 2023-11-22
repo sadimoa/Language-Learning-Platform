@@ -50,22 +50,12 @@ Authorization: Bearer <token>
     }
 ```
 
-- `409 Conflict`: User with the provided email already exists.
-  - Body:
-    ```json
+```json
     {
       "message": "user already exists"
     }
-    ```
+```
 
-- `500 Internal Server Error`: Error creating user.
-  - Body:
-    ```json
-    {
-      "message": "Error creating user",
-      "err": "Error details"
-    }
-    ```
 
 ### User Login
 
