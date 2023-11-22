@@ -48,7 +48,7 @@ Authorization: Bearer <token>
         "role": "user"
       }
     }
-    ```
+```
 
 - `409 Conflict`: User with the provided email already exists.
   - Body:
