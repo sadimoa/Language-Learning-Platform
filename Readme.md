@@ -32,7 +32,7 @@ Authorization: Bearer <token>
 | email      | string | User's email address |
 | password   | string | User's password      |
 
-- Response
+- Response:
   - Status: 200 OK
   - Content-Type: application/json
   - Body:
