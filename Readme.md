@@ -4,7 +4,7 @@ This is the documentation for the API endpoints provided by the Language Learnin
 
 ## Base URL
 
-The base URL for all API endpoints is: `https://fix-it-together-eda1be1fe9b5.herokuapp.com/api`
+The base URL for all API endpoints is: ``
 
 ## Authentication
 
