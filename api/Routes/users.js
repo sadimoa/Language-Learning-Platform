@@ -1,7 +1,7 @@
 // Import the necessary libraries
 import express from "express";
-import prisma from "./Lib/index.js";
-import permission from "./middleware/permission.js";
+import prisma from "../Lib/index.js";
+import permission from "../middleware/permission.js";
 
 const router = express.Router();
 
@@ -46,7 +46,7 @@ router.get("/:id", permission, async (req, res) => {
 });
 
 // delete user
-router.delete("/logout/:id", permission, async (req, res) => {
+router.delete("/delete/:id", permission, async (req, res) => {
   try {
     const user = await prisma.user.delete({
       where: {

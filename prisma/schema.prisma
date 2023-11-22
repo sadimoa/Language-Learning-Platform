@@ -17,12 +17,19 @@ model User {
   email     String   @unique
   password  String
   role      Role     @default(user)
+  proficiency           String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  lesson  Lesson[]
-  answers Answer[]
-  Result  Result[]
+  lesson         Lesson[]
+  answers        Answer[]
+  Result         Result[]
+  ExerciseResult ExerciseResult[]
+  ExerciseAnswer ExerciseAnswer[]
+  progress Progress[]
+  
+  sentMessages      Message[] @relation("SentMessages")
+  receivedMessages  Message[] @relation("ReceivedMessages")
 }
 
 enum Role {
@@ -31,17 +38,18 @@ enum Role {
 }
 
 model Lesson {
-  id          String    @id @unique @default(uuid())
-  title       String
-  videoUrl    String
-  content     String
-  language    String
-  lessonNumber Int
-  isPublished Boolean   @default(false)
-  isCompleted Boolean   @default(false)
-  completedAt DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id           String    @id @unique @default(uuid())
+  title        String
+  videoUrl     String
+  content      String
+  language     String
+  lessonNum Int
+  lessonCompletedCount Int @default(0)
+  isPublished  Boolean   @default(false)
+  isCompleted  Boolean   @default(false)
+  completedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
@@ -49,7 +57,10 @@ model Lesson {
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id])
 
-  quiz Quiz[]
+  quiz      Quiz[]
+  exercises Exercise[]
+  progress Progress[]
+
 }
 
 model Category {
@@ -72,7 +83,9 @@ model Quiz {
   lessonId String
   lesson   Lesson   @relation(fields: [lessonId], references: [id])
   answers  Answer[]
-  Result   Result[]
+  Results  Result[]
+  progress Progress[]
+
 }
 
 model Answer {
@@ -88,9 +101,73 @@ model Answer {
 
 model Result {
   id     Int    @id @default(autoincrement())
-  score  Int
+  point  Int
   userId String
   user   User   @relation(fields: [userId], references: [id])
   quizId Int
   quiz   Quiz   @relation(fields: [quizId], references: [id])
+}
+
+model Exercise {
+  id        Int      @id @default(autoincrement())
+  question  String
+  options   Json
+  answer    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  lessonId       String
+  lesson         Lesson           @relation(fields: [lessonId], references: [id])
+  exerciseAnswer ExerciseAnswer[]
+  ExerciseResult ExerciseResult[]
+  progress Progress[]
+}
+
+model ExerciseAnswer {
+  id        Int     @id @default(autoincrement())
+  answer    String
+  isCorrect Boolean
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  exerciseId Int
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ExerciseResult {
+  id         Int      @id @default(autoincrement())
+  point      Int
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  exerciseId Int
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+}
+
+
+model Progress {
+  id           Int      @id @default(autoincrement())
+  userId       String
+  lessonId     String
+  quizId       Int
+  exerciseId   Int
+  isCompleted Boolean
+  score        Int
+  user         User     @relation(fields: [userId], references: [id])
+  lesson       Lesson   @relation(fields: [lessonId], references: [id])
+  quiz         Quiz     @relation(fields: [quizId], references: [id])
+  exercise     Exercise @relation(fields: [exerciseId], references: [id])
+}
+
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  sender    User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiver  User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+
+  senderId    String
+  receiverId  String
 }

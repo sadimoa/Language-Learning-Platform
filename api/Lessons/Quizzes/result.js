@@ -27,6 +27,7 @@ router.get("/", permission, async (req, res) => {
 
 
 
+
 // delete the result
 router.delete("/delete/:id", permission, async (req, res) => {
   try {

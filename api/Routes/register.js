@@ -1,5 +1,5 @@
 import express from "express";
-import prisma from "./Lib/index.js";
+import prisma from "../Lib/index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
@@ -79,7 +79,7 @@ router.post("/login", async (req, res) => {
         role: existingUser.role,
       },
       SECRET_KEY,
-      { expiresIn: "1d" }
+      { expiresIn: "7d" }
     );
 
     res.status(201).json({

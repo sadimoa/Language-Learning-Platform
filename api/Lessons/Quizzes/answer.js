@@ -49,19 +49,42 @@ router.get("/:id", permission, async (req, res) => {
 });
 
 // Create answer and check if the student answer is correct
+// Create answer and check if the student answer is correct
 router.post("/submit", authenticate, async (req, res) => {
   try {
-    const { quizId, answer, userId } = req.body;
+    const { answer, quizId, userId } = req.body;
 
+    // Check if the user  exist
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
     // Fetch the quiz from the database
     const quiz = await prisma.quiz.findUnique({
-      where: {
-        id: quizId,
+      where: { id: quizId },
+      include: {
+        lesson: {
+          include: {
+            exercises: true, // Assuming 'exercises' is the relation in the Lesson model
+          },
+        },
       },
     });
 
     if (!quiz) {
       return res.status(404).json({ message: "Quiz not found" });
+    }
+
+    // Extract exercise
+    const exerciseId = quiz?.lesson?.exercises;
+
+    if (!quiz || !quiz.lesson || !exerciseId) {
+      return res
+        .status(404)
+        .json({ error: "quiz, lesson, or exercise not found." });
     }
 
     const existingAnswer = await prisma.answer.findFirst({
@@ -73,39 +96,110 @@ router.post("/submit", authenticate, async (req, res) => {
     });
 
     if (existingAnswer) {
-      // Respond with a 409  status if answer already exizt
       return res
         .status(409)
-        .json({ message: "Student already answer this question" });
+        .json({ message: "Student already answered this question" });
     }
 
-    let resultMessage;
-    let score = 0;
-
     // Check if the student answer is correct
-    if (answer === quiz.correctAnswer) {
+    const isCorrect = answer === quiz.correctAnswer;
+    const points = isCorrect ? 10 : 0;
+
+    if (isCorrect) {
       // Save the student's answer in the database
       await prisma.answer.create({
         data: req.body,
       });
-      score = 10;
-      resultMessage = "Correct answer";
-    } else {
-      resultMessage = "Incorrect answer plaese try again";
-    }
 
-    // Create a result based of the stdent score
-    const result = await prisma.result.create({
-      data: {
-        score: score,
-        quizId: quizId,
-        userId: userId,
-      },
-    });
-    return res.status(200).json({
-      message: resultMessage,
-      result: result,
-    });
+      // Create a result if the student's answer is correct
+      const result = await prisma.result.create({
+        data: {
+          point: points,
+          quizId: quizId,
+          userId: userId,
+        },
+      });
+
+      // Create or update Progress
+      const progress = await prisma.progress.findFirst({
+        where: {
+          userId,
+          quizId,
+        },
+      });
+
+      if (!progress) {
+        await prisma.progress.create({
+          data: {
+            user: {
+              connect: { id: userId },
+            },
+            isCompleted: points > 0,
+            point: points,
+            lesson: {
+              connect: { id: quiz.lessonId },
+            },
+            quiz: {
+              connect: { id: quizId },
+            },
+            exercise: {
+              connect: { id: exerciseId },
+            },
+            score: points,
+          },
+        });
+      } else {
+        await prisma.progress.update({
+          where: {
+            id: progress.id,
+          },
+          data: {
+            isCompleted: points > 0,
+            score: points,
+          },
+        });
+      }
+
+      // Update the lesson completion status
+      if (points > 0) {
+        const calculateProficiency = (lessonCompletedCount) => {
+          if (lessonCompletedCount < 0) {
+            return "Beginner";
+          } else if (lessonCompletedCount <= 1) {
+            return "Intermediate";
+          } else {
+            return "Advanced";
+          }
+        };
+
+
+
+        await prisma.lesson.update({
+          where: {
+            id: quiz.lessonId,
+          },
+          data: {
+            isCompleted: true,
+            completedAt: { set: new Date() },
+            lessonCompletedCount: {
+              increment: 1,
+            },
+            proficiency: calculateProficiency(lessonCompletedCount),
+          },
+        });
+      }
+
+      return res.status(200).json({
+        answer,
+        message: "Correct answer",
+        result,
+      });
+    } else {
+      return res.status(200).json({
+        answer,
+        message: `Incorrect answer, please try again`,
+      });
+    }
   } catch (err) {
     return res.status(500).json({
       message: "Internal server error",

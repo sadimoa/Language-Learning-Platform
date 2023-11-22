@@ -1,4 +1,5 @@
-import server from './api/server.js'
+import server from './api/Routes/server.js'
+
 
 const port = 2000
 
