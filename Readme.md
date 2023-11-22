@@ -1,4 +1,4 @@
-# API Documentation for Fix It Together
+# API Documentation for Language Learning Platform
 
 This is the documentation for the API endpoints provided by the Language Learning server.
 
