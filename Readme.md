@@ -1,5 +1,3 @@
-markdown
-Copy code
 # User Authentication API Documentation
 
 This documentation outlines the usage of the user authentication API implemented using Express.js, Prisma, Bcrypt, and JSON Web Tokens (JWT).
@@ -59,27 +57,23 @@ email	string	Email address of the user.
 password	string	User's password.
 Response
 201 Created: User logged in successfully. Returns a JWT token.
-json
-Copy code
+
 {
   "message": "User logged in successfully",
   "token": "JWT_TOKEN"
 }
 404 Not Found: User with the provided email not found.
-json
-Copy code
+
 {
   "message": "User not found"
 }
 401 Unauthorized: Invalid password.
-json
-Copy code
+
 {
   "message": "Invalid password"
 }
 500 Internal Server Error: Error during the login process.
-json
-Copy code
+
 {
   "message": "Error signing in",
   "err": "Error details"
