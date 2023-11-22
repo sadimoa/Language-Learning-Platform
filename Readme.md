@@ -33,9 +33,9 @@ Authorization: Bearer <token>
 | password   | string | User's password      |
 
 - Response
- - Status: 200 OK
- - Content-Type: application/json
- - Body:
+  - Status: 200 OK
+  - Content-Type: application/json
+  - Body:
 
 - `201 Created`: User successfully created.
   - Body:
@@ -82,7 +82,10 @@ Authorization: Bearer <token>
 | password   | string | User's password      |
 
 
-#### Response
+- Response
+  - Status: 200 OK
+  - Content-Type: application/json
+  - Body:
 
 - `201 Created`: User successfully logged in.
   - Body:
