@@ -56,12 +56,11 @@ Authorization: Bearer <token>
     }
 ```
 
-
 ### User Login
 
- - **URL**: `/user/register`
+ - **URL**: `/user/login`  <!-- Corrected URL -->
  - **Method**: `POST`
- - **Description**: Registers a new user.
+ - **Description**: Logs in an existing user.
  - **Request Body**:
 
 | Field      | Type   | Description          |
@@ -69,35 +68,18 @@ Authorization: Bearer <token>
 | email      | string | User's email address |
 | password   | string | User's password      |
 
-
 - Response
   - Status: 200 OK
   - Content-Type: application/json
   - Body:
-
-
 
 ```json
     {
       "message": "user logged in successfully",
       "token": "generated-jwt-token"
     }
-```
 
 
-
-```json
-    {
-      "message": "user not found"
-    }
-```
-
-
-```json
-    {
-      "message": "Invalid password"
-    }
-```
 
 
 
