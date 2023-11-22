@@ -37,9 +37,7 @@ Authorization: Bearer <token>
   - Content-Type: application/json
   - Body:
 
-- `201 Created`: User successfully created.
-  - Body:
-    ```json
+```json
     {
       "message": "user created successfully",
       "user": {
