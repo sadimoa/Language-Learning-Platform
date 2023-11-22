@@ -35,11 +35,10 @@ POST /signup
       "role": "user"
     }
   }
-
-  ## 1. 409 Conflict: User with the provided email already exists.
+   - ## 1. 409 Conflict: User with the provided email already exists.
 ```json
 {
   "message": "User already exists"
-}
+ }
 
 
