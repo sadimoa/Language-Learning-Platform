@@ -1,6 +1,7 @@
 # API Documentation for Language Learning Platform
 
-This is the documentation for the API endpoints provided by the Language Learning server.
+ language learning platform designed to make language acquisition a seamless and enjoyable experience. , our backend application provides a robust foundation for creating a feature-rich language learning environment.
+
 
 ## Base URL
 
@@ -50,12 +51,18 @@ Authorization: Bearer <token>
     }
 ```
 
+```json
+    {
+      "message": "user already exists"
+    }
+```
+
 
 ### User Login
 
- - **URL**: `/user/login`  <!-- Corrected URL -->
+ - **URL**: `/user/register`
  - **Method**: `POST`
- - **Description**: Logs in an existing user.
+ - **Description**: Registers a new user.
  - **Request Body**:
 
 | Field      | Type   | Description          |
@@ -63,18 +70,35 @@ Authorization: Bearer <token>
 | email      | string | User's email address |
 | password   | string | User's password      |
 
+
 - Response
   - Status: 200 OK
   - Content-Type: application/json
   - Body:
+
+
 
 ```json
     {
       "message": "user logged in successfully",
       "token": "generated-jwt-token"
     }
+```
 
 
+
+```json
+    {
+      "message": "user not found"
+    }
+```
+
+
+```json
+    {
+      "message": "Invalid password"
+    }
+```
 
 
 
