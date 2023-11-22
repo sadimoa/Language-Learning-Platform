@@ -50,11 +50,6 @@ Authorization: Bearer <token>
     }
 ```
 
-```json
-    {
-      "message": "user already exists"
-    }
-```
 
 ### User Login
 
