@@ -31,9 +31,11 @@ Authorization: Bearer <token>
 | lastName   | string | User's last name     |
 | email      | string | User's email address |
 | password   | string | User's password      |
-| role       | string | User's role          |
 
-#### Response
+- Response
+ - Status: 200 OK
+ - Content-Type: application/json
+ - Body:
 
 - `201 Created`: User successfully created.
   - Body:
