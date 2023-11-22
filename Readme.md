@@ -23,7 +23,8 @@ POST /signup
 
 #### Response
 - `201 Created`: User account created successfully.
-  ```json
+
+   ```json
   {
     "message": "User created successfully",
     "user": {
@@ -36,9 +37,5 @@ POST /signup
   }
 
 
-Environment Variables
-Ensure the following environment variable is set in a .env file:
-
-SECRET_KEY: Secret key used for JWT token generation.
 
 
