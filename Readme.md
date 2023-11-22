@@ -36,19 +36,4 @@ POST /signup
     }
   }
 
-409 Conflict: User with the provided email already exists.
-json
-Copy code
-{
-  "message": "User already exists"
-}
-500 Internal Server Error: Error creating the user.
-json
-Copy code
-{
-  "message": "Error creating user",
-  "err": "Error details"
-}
-
-
 
