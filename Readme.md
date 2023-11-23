@@ -114,7 +114,7 @@ Authorization: Bearer <token>
     }
     ```
 
-## Delete User
+### Delete User
 
 - **URL:** `/users/delete/:id`
 - **Method:** `DELETE`
@@ -496,6 +496,262 @@ Authorization: Bearer <token>
 ### Delete Result
 
 - **URL:** `/api/results/delete/:id`
+- **Method:** `DELETE`
+- **Description:** Delete a specific result by ID.
+- **Permissions:** Requires special permission.
+- **Parameters:**
+  - `id`: Result ID
+- **Response:**
+  - **Status:** 204 No Content
+  - **Body:** None
+
+
+## exercise Endpoints
+
+### Get All exercises
+
+- **URL:** `/exercises`
+- **Method:** `GET`
+- **Description:** Get all exercises.
+- **Permissions:** Requires permission.
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:** Array of exercise objects
+
+```json
+    [
+      {
+        "id": 1,
+        "question": "exercise Question",
+        "answerOptions": ["Options A", "Options B", "Options C"],
+        "answer": "Options A"
+        // ... other exercise properties
+      }
+      // More exercises...
+    ]
+ ```
+
+### Get exercise by ID
+
+- **URL:** `/exercises/:id`
+- **Method:** `GET`
+- **Description:** Get a specific exercise by ID.
+- **Permissions:** Requires permission.
+- **Parameters:**
+  - `id`: exercise ID
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:** exercise object
+
+```json
+    {
+      "id": 1,
+      "question": "exercise Question",
+      "answerOptions": ["Options A", "Options B", "Options C"],
+      "answer": "Options A"
+      // ... other exercise properties
+    }
+```
+
+### Create a exercise
+
+- **URL:** `/exercises/add`
+- **Method:** `POST`
+- **Description:** Create a new exercise.
+- **Permissions:** Requires permission.
+- **Request Body:**
+
+| Field         | Type   | Description                                      |
+| ------------- | ------ | ------------------------------------------------ |
+| question      | string | New exercise Question                                |
+| answerOptions | array  | ["New Options A", "New Options B", "New Options C"] |
+| answer | string | New Options A                                     |
+|               |        |                                                  |
+
+- Response:
+  - Status: 201 Created
+  - Body:
+
+```json
+{
+  "message": "exercise created successfully",
+  "exercise": {
+    "id": 2,
+    "question": "New exercise Question",
+    "answerOptions": ["New Options A", "New Options B", "New Options C"],
+    "answer": "New Options A",
+    // ... other exercise properties
+  }
+}
+
+```
+
+### Update a exercise
+
+- **URL:** `/exercises/update/:id`
+- **Method:** `PUT`
+- **Description:** Update an existing exercise by ID.
+- **Permissions:** Requires permission.
+- **Parameters:**
+  - `id`: exercise ID
+- **Request Body:**
+
+ Field         | Type   | Description                                      |
+| ------------- | ------ | ------------------------------------------------ |
+| question      | string | New exercise Question                                |
+| answerOptions | array  | ["New Options A", "New Options B", "New Options C"] |
+| answer | string | New Options A                                     |
+|               |        |                            
+
+
+- Response:
+  - Status: 201 Created
+  - Body:
+
+```json
+{
+  "id": 2,
+  "question": "Updated exercise Question",
+  "answerOptions": ["Updated Options A", "Updated Options B", "Updated Options C"],
+  "answer": "Updated Options A",
+  // ... other exercise properties
+}
+
+```
+
+
+### Delete a exercise
+
+- **URL:** `/exercises/delete/:id`
+- **Method:** `DELETE`
+- **Description:** Delete a exercise by ID.
+- **Permissions:** Requires permission.
+- **Parameters:**
+  - `id`: exercise ID
+- **Response:**
+  - **Status:** 204 No Content
+  - **Body:** No content in response body.
+
+
+
+
+## Exercise Answer Endpoints
+
+### Get All Exercise Answers
+
+- **URL:** `/api/exercise-answer`
+- **Method:** `GET`
+- **Description:** Get all answers.
+- **Permissions:** Requires special permission.
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:** Array of answer objects
+```jsona
+    [
+      {
+        "id": 1,
+        "answer": "Example Answer",
+        "isCorrect": true,
+        "userId": 123,
+        "exerciseId": 456
+      },
+      // More answers...
+    ]
+```
+
+### Get exercise Answer by ID
+
+- **URL:** `/api/exercise-answer/:id`
+- **Method:** `GET`
+- **Description:** Get a specific answer by ID.
+- **Permissions:** Requires special permission.
+- **Parameters:**
+  - `id`: Answer ID
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:** Answer object
+
+```json
+    {
+      "id": 1,
+      "answer": "Example Answer",
+      "isCorrect": true,
+      "userId": 123,
+      "exerciseId": 456
+    }
+```
+
+### Submit exercise Answer
+
+- **URL:** `/api/exercise-answer/submit`
+- **Method:** `POST`
+- **Description:** Submit a exercise answer, check correctness, and update user progress.
+- **Authentication:** Required
+- **Request Body:**
+ 
+ | Field   | Type   | Description            |
+|---------|--------|------------------------|
+| answer  | string | User's submitted answer|
+| exerciseId  | number | exercise ID                |
+| userId  | number | User ID                |
+
+- Response:
+  - Status: 201 Created
+  - Body:
+
+```json
+{
+  "answer": "User Answer",
+  "message": "Correct answer",
+  "result": {
+    "id": 2,
+    "point": 10,
+    "exerciseId": 789,
+    "userId": 101
+  }
+}
+```
+
+### Delete exercise Answer
+
+- **URL:** `/api/answers/delete/:id`
+- **Method:** `DELETE`
+- **Description:** Delete a specific answer by ID.
+- **Permissions:** Requires special permission.
+- **Parameters:**
+  - `id`: Answer ID
+- **Response:**
+  - **Status:** 204 No Content
+  - **Body:** None
+
+
+## Exercise Result Endpoints
+
+### Get All Results
+
+- **URL:** `/api/exercise-results`
+- **Method:** `GET`
+- **Description:** Get all results.
+- **Permissions:** Requires special permission.
+- **Response:**
+  - **Status:** 200 OK
+  - **Body:** Array of result objects
+
+```json
+    [
+      {
+        "id": 1,
+        "point": 10,
+        "exerciseId": 123,
+        "userId": 456
+      },
+      // More results...
+    ]
+```
+
+### Delete Result
+
+- **URL:** `/api/exercise-results/delete/:id`
 - **Method:** `DELETE`
 - **Description:** Delete a specific result by ID.
 - **Permissions:** Requires special permission.
