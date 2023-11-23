@@ -1,7 +1,6 @@
 # API Documentation for Language Learning Platform
 
-<<<<<<< HEAD
-language learning platform designed to make language acquisition a seamless and enjoyable experience. , our backend application provides a robust foundation for creating a feature-rich language learning environment.
+ language learning platform designed to make language acquisition a seamless and enjoyable experience. , our backend application provides a robust foundation for creating a feature-rich language learning environment.
 
 ## Base URL
 
@@ -19,7 +18,6 @@ Authorization: Bearer <token>
 
 ## Endpoints
 
-## Registration Endpoints
 
 ### User Registration
 
@@ -72,53 +70,7 @@ Authorization: Bearer <token>
 
 - Response
   - Status: 200 OK
-=======
- language learning platform designed to make language acquisition a seamless and enjoyable experience. , our backend application provides a robust foundation for creating a feature-rich language learning environment.
 
-
-## Base URL
-
-The base URL for all API endpoints is: ``
-
-## Authentication
-
-All authenticated endpoints require a valid JSON Web Token (JWT) in the Authorization header.
-
-#### Example Header
-
-```plaintext
-Authorization: Bearer <token>
-```
-
-## Endpoints
-
-### User Registration
-
- - **URL**: `/user/register`
- - **Method**: `POST`
- - **Description**: Registers a new user.
- - **Request Body**:
-
-| Field      | Type   | Description          |
-|------------|--------|----------------------|
-| firstName  | string | User's first name    |
-| lastName   | string | User's last name     |
-| email      | string | User's email address |
-| password   | string | User's password      |
-
-- Response:
-  - Status: 201 OK
->>>>>>> e773458271d367b34730cd8322f5bcb27a81e0e3
-  - Content-Type: application/json
-  - Body:
-
-```json
-<<<<<<< HEAD
-{
-  "message": "user logged in successfully",
-  "token": "generated-jwt-token"
-}
-```
 
 ## User Endpoints
 
@@ -552,69 +504,3 @@ Authorization: Bearer <token>
 - **Response:**
   - **Status:** 204 No Content
   - **Body:** None
-
-=======
-    {
-      "message": "user created successfully",
-      "user": {
-        "id": "user-id",
-        "firstName": "John",
-        "lastName": "Doe",
-        "email": "john.doe@example.com",
-        "role": "user"
-      }
-    }
-```
-- 409 Conflict: User with the provided email already exists.
-```json
-    {
-      "message": "user already exists"
-    }
-```
-
-
-### User Login
-
- - **URL**: `/user/register`
- - **Method**: `POST`
- - **Description**: Registers a new user.
- - **Request Body**:
-
-| Field      | Type   | Description          |
-|------------|--------|----------------------|
-| email      | string | User's email address |
-| password   | string | User's password      |
-
-
-- Response
-  - Status: 201 OK
-  - Content-Type: application/json
-  - Body:
-
-```json
-    {
-      "message": "user logged in successfully",
-      "token": "generated-jwt-token"
-    }
-```
-
-
-- 404 Not Found: User with the provided email not found.
-```json
-    {
-      "message": "user not found"
-    }
-```
-
--  401 Unauthorized: Invalid password.
-```json
-    {
-      "message": "Invalid password"
-    }
-```
-
-
-
-
-
->>>>>>> e773458271d367b34730cd8322f5bcb27a81e0e3
