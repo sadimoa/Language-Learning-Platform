@@ -17,6 +17,7 @@ model User {
   email     String   @unique
   password  String
   role      Role     @default(user)
+  lessonCompletedCount Int @default(0)
   proficiency           String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -44,7 +45,6 @@ model Lesson {
   content      String
   language     String
   lessonNum Int
-  lessonCompletedCount Int @default(0)
   isPublished  Boolean   @default(false)
   isCompleted  Boolean   @default(false)
   completedAt  DateTime?
@@ -92,7 +92,7 @@ model Answer {
   id          Int      @id @default(autoincrement())
   answer      Int
   submittedAt DateTime @default(now())
-
+  isCorrect Boolean
   userId String
   user   User   @relation(fields: [userId], references: [id])
   quizId Int

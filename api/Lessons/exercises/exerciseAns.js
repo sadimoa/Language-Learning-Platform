@@ -7,7 +7,7 @@ import authenticate from "../../middleware/authenticate.js";
 const router = express.Router();
 
 // get all ExerciseAnswer
-router.get("/", permission, async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
   try {
     // Fetch the exerciseAnswer from the database
     const exerciseAnswer = await prisma.exerciseAnswer.findMany();
@@ -49,7 +49,7 @@ router.get("/:id", permission, async (req, res) => {
 });
 
 // POST endpoint to create ExerciseAnswer and Result
-router.post("/submit", async (req, res) => {
+router.post("/submit", authenticate , async (req, res) => {
   try {
     const { userId, exerciseId, answer } = req.body;
 

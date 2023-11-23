@@ -68,7 +68,7 @@ router.post("/submit", authenticate, async (req, res) => {
       include: {
         lesson: {
           include: {
-            exercises: true, // Assuming 'exercises' is the relation in the Lesson model
+            exercises: true,
           },
         },
       },
@@ -79,7 +79,7 @@ router.post("/submit", authenticate, async (req, res) => {
     }
 
     // Extract exercise
-    const exerciseId = quiz?.lesson?.exercises;
+    const exerciseId = 1;
 
     if (!quiz || !quiz.lesson || !exerciseId) {
       return res
@@ -108,7 +108,12 @@ router.post("/submit", authenticate, async (req, res) => {
     if (isCorrect) {
       // Save the student's answer in the database
       await prisma.answer.create({
-        data: req.body,
+        data: {
+          answer,
+          isCorrect,
+          userId,
+          quizId,
+        },
       });
 
       // Create a result if the student's answer is correct
@@ -135,7 +140,7 @@ router.post("/submit", authenticate, async (req, res) => {
               connect: { id: userId },
             },
             isCompleted: points > 0,
-            point: points,
+            score: points,
             lesson: {
               connect: { id: quiz.lessonId },
             },
@@ -145,7 +150,6 @@ router.post("/submit", authenticate, async (req, res) => {
             exercise: {
               connect: { id: exerciseId },
             },
-            score: points,
           },
         });
       } else {
@@ -172,6 +176,30 @@ router.post("/submit", authenticate, async (req, res) => {
           }
         };
 
+        // Fetch the current lessonCompletedCount from the user data
+        const user = await prisma.user.findUnique({
+          where: {
+            id: userId,
+          },
+        });
+
+        if (!user) {
+          return res.status(404).json({ error: "User not found." });
+        }
+
+        const currentLessonCompletedCount = user.lessonCompletedCount;
+
+        await prisma.user.update({
+          where: {
+            id: userId,
+          },
+          data: {
+            lessonCompletedCount: {
+              increment: 1,
+            },
+            proficiency: calculateProficiency(currentLessonCompletedCount),
+          },
+        });
 
 
         await prisma.lesson.update({
@@ -181,10 +209,6 @@ router.post("/submit", authenticate, async (req, res) => {
           data: {
             isCompleted: true,
             completedAt: { set: new Date() },
-            lessonCompletedCount: {
-              increment: 1,
-            },
-            proficiency: calculateProficiency(lessonCompletedCount),
           },
         });
       }
@@ -234,3 +258,7 @@ router.delete("/delete/:id", permission, async (req, res) => {
 });
 
 export default router;
+
+
+
+
