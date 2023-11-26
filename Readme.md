@@ -4,7 +4,7 @@
 
 ## Base URL
 
-The base URL for all API endpoints is: ``
+The base URL for all API endpoints is: `https://language-learning-platform.onrender.com/`
 
 ## Authentication
 
@@ -21,7 +21,7 @@ Authorization: Bearer <token>
 
 ### User Registration
 
-- **URL**: `/register/signup`
+- **URL**: `api/register/signup`
 - **Method**: `POST`
 - **Description**: Registers a new user.
 - **Request Body**:
@@ -58,7 +58,7 @@ Authorization: Bearer <token>
 
 ### User Login
 
-- **URL**: `/register/login`
+- **URL**: `api/register/login`
 - **Method**: `POST`
 - **Description**: Registers a new user.
 - **Request Body**:
@@ -76,7 +76,7 @@ Authorization: Bearer <token>
 
 ### Get All Users
 
-- **URL:** `/users`
+- **URL:** `api/users`
 - **Method:** `GET`
 - **Description:** Get all users.
 - **Permissions:** Requires permission.
@@ -97,7 +97,7 @@ Authorization: Bearer <token>
 
 ### Get User by ID
 
-- **URL:** `/users/:id`
+- **URL:** `api/users/:id`
 - **Method:** `GET`
 - **Description:** Get a specific user by ID.
 - **Permissions:** Requires permission.
@@ -116,7 +116,7 @@ Authorization: Bearer <token>
 
 ### Delete User
 
-- **URL:** `/users/delete/:id`
+- **URL:** `api/users/delete/:id`
 - **Method:** `DELETE`
 - **Description:** Delete a user by ID.
 - **Permissions:** Requires permission.
@@ -130,7 +130,7 @@ Authorization: Bearer <token>
 
 ### Get All Lessons
 
-- **URL:** `/lessons`
+- **URL:** `api/lessons`
 - **Method:** `GET`
 - **Description:** Get all lessons.
 - **Authentication:** Requires authentication.
@@ -153,7 +153,7 @@ Authorization: Bearer <token>
 
 ### Get Lesson by ID
 
-- **URL:** `/lessons/:id`
+- **URL:** `api/lessons/:id`
 - **Method:** `GET`
 - **Description:** Get a specific lesson by ID.
 - **Permissions:** Requires permission.
@@ -175,7 +175,7 @@ Authorization: Bearer <token>
 
 ### Create a Lesson
 
-- **URL:** `/lessons/add`
+- **URL:** `api/lessons/add`
 - **Method:** `POST`
 - **Description:** Create a new lesson.
 - **Permissions:** Requires permission.
@@ -208,7 +208,7 @@ Authorization: Bearer <token>
 
 ### Update a Lesson
 
-- **URL:** `/lessons/update/:id`
+- **URL:** `api/lessons/update/:id`
 - **Method:** PUT
 - **Description:** Update an existing lesson by ID.
 - **Permissions:** Requires permission.
@@ -240,7 +240,7 @@ Authorization: Bearer <token>
 
 ### Delete a Lesson
 
-- **URL:** `/lessons/delete/:id`
+- **URL:** `api/lessons/delete/:id`
 - **Method:** DELETE
 - **Description:** Delete a lesson by ID.
 - **Permissions:** Requires permission.
@@ -254,7 +254,7 @@ Authorization: Bearer <token>
 
 ### Get All Quizzes
 
-- **URL:** `/quizzes`
+- **URL:** `api/quizzes`
 - **Method:** `GET`
 - **Description:** Get all quizzes.
 - **Permissions:** Requires permission.
@@ -276,7 +276,7 @@ Authorization: Bearer <token>
 
 ### Get Quiz by ID
 
-- **URL:** `/quizzes/:id`
+- **URL:** `api/quizzes/:id`
 - **Method:** `GET`
 - **Description:** Get a specific quiz by ID.
 - **Permissions:** Requires permission.
@@ -298,7 +298,7 @@ Authorization: Bearer <token>
 
 ### Create a Quiz
 
-- **URL:** `/quizzes/add`
+- **URL:** `api/quizzes/add`
 - **Method:** `POST`
 - **Description:** Create a new quiz.
 - **Permissions:** Requires permission.
@@ -331,7 +331,7 @@ Authorization: Bearer <token>
 
 ### Update a Quiz
 
-- **URL:** `/quizzes/update/:id`
+- **URL:** `api/quizzes/update/:id`
 - **Method:** `PUT`
 - **Description:** Update an existing quiz by ID.
 - **Permissions:** Requires permission.
@@ -365,7 +365,7 @@ Authorization: Bearer <token>
 
 ### Delete a Quiz
 
-- **URL:** `/quizzes/delete/:id`
+- **URL:** `api/quizzes/delete/:id`
 - **Method:** `DELETE`
 - **Description:** Delete a quiz by ID.
 - **Permissions:** Requires permission.

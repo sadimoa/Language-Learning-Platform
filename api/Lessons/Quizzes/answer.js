@@ -167,9 +167,9 @@ router.post("/submit", authenticate, async (req, res) => {
       // Update the lesson completion status
       if (points > 0) {
         const calculateProficiency = (lessonCompletedCount) => {
-          if (lessonCompletedCount < 0) {
+          if (lessonCompletedCount > 0) {
             return "Beginner";
-          } else if (lessonCompletedCount <= 1) {
+          } else if (lessonCompletedCount <= 10) {
             return "Intermediate";
           } else {
             return "Advanced";
