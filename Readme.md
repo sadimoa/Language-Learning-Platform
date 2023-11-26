@@ -4,7 +4,8 @@
 
 ## Base URL
 
-The base URL for all API endpoints is: `https://language-learning-platform.onrender.com/`
+Base URL: [https://language-learning-platform.onrender.com](https://language-learning-platform.onrender.com)
+
 
 ## Authentication
 
