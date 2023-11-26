@@ -2,7 +2,7 @@ import express, { json } from "express";
 import registerRouter from "./register.js";
 import userRouter from "./users.js";
 import lessonRouter from "../Lessons/lesson.js";
-import categoryRouter from "../lessons/lossenCategory.js";
+import categoryRouter from "../Lessons/lossenCategory.js";
 import quizRouter from "../Lessons/Quizzes/quiz.js";
 import answerRouter from "../Lessons/Quizzes/answer.js";
 import resultRouter from "../Lessons/Quizzes/result.js";
