@@ -158,3 +158,4 @@ model Progress {
   exercise     Exercise @relation(fields: [exerciseId], references: [id])
 }
 
+
